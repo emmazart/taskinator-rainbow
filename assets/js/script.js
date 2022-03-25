@@ -216,45 +216,14 @@ var loadTasks = function() {
     // get task items from localStorage
     var savedTasks = localStorage.getItem("tasks");
     if (savedTasks === null){
-        savedTasks = [];
         return false;
     }
     // convert tasks from string into an array of objects
     savedTasks = JSON.parse(savedTasks);
-    //loop through savedTasks array
     for (var i = 0; i < savedTasks.length; i++){
-        savedTasks[i].id = taskIdCounter;
-
-        var listItemEl = document.createElement("li");
-        listItemEl.className = "task-item";
-        listItemEl.setAttribute("data-task-id", savedTasks[i].id);
-
-        var taskInfoEl = document.createElement("div");
-        taskInfoEl.className = "task-info";
-        taskInfoEl.innerHTML = "<h3 class='task-name'>" + savedTasks[i].name + "</h3><span class='task-type'>" + savedTasks[i].type + "</span>";
-        listItemEl.appendChild(taskInfoEl);
-
-        var taskActionsEl = createTaskActions(savedTasks[i].id);
-        listItemEl.appendChild(taskActionsEl);
-
-        console.log(listItemEl)
-
-        if (savedTasks[i].statusValue === "to do"){
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
-            tasksToDoEl.appendChild(listItemEl);
-        } else if (savedTasks[i].statusValue === "in progress"){
-            listItemEl.querySelector("select[name='status-change']").selectedInxed = 1;
-            tasksInProgressEl.appendChild(listItemEl);
-        } else if (savedTasks[i].statusValue === "complete"){
-            listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
-            tasksCompletedEl.appendChild(listItemEl);
-        }
-        taskIdCounter++
-        console.log(listItemEl);
-        // createTaskEl(savedTasks[i]);
+    createTaskEl(savedTasks[i]);
     }
-    // iterate through a tasks array and create task elements on the page from it
-}
+};
 
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
